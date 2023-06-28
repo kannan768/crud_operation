@@ -1,0 +1,289 @@
+
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <link rel="stylesheet" href="assets/side.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <style> 
+  
+      input[type=text] {
+        width: 20%;
+        box-sizing: border-box;
+        border: 2px solid black;
+        border-radius: 20px;
+        font-size: 16px;
+        background-color:white;
+        background-image:url("./assets/searchicon.png");
+        background-position: 10px 10px; 
+        background-repeat: no-repeat;
+        padding: 12px 20px 12px 40px;
+      }
+      .button {
+    background-color: white; /* blue */
+    border: none;
+    color: black;
+    padding: 4px 16px;
+    text-align: left;
+    text-decoration: none;
+    display: inline-block;
+    align-content: left;
+    font-size: 15px;
+    font-weight: bold;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-left: 46%;
+  }
+  
+ 
+  .button:hover {
+    background-color: #15f36a;
+    color: black;
+  }
+      </style>
+  </head>
+  <body>
+
+    <input type="checkbox" id="check">
+    <!--header area start-->
+    <header>
+      <label for="check">
+        <i class="fas fa-bars" id="sidebar_btn"></i>
+      </label>
+      <div class="left_area">
+        <h3>Project<span>Details</span></h3>
+      </div>
+      <div class="right_area">
+        <!-- <i class="fa logout_btn"></i> -->
+        <a href="index.html" class="logout_btn">Logout </a>
+        <!-- <a href="index.html"><i class="fa-sign-out"></i>Logout</a> -->
+        
+      </div>
+    </header>
+    <!--header area end-->
+    <!--mobile navigation bar start-->
+    <div class="mobile_nav">
+      <div class="nav_bar">
+       
+        <i class="fa fa-bars nav_btn"></i>
+      </div>
+      <div class="mobile_nav_items">
+        <a href="add.html"><i class="fas fa-plus"></i><span>Add Project Details</span></a>
+        <a href="retrieve.html"><i class="fas fa-search"></i><span>Retrieve Project Details</span></a>
+        <a href="delete3.html"><i class="fas fa-trash"></i><span>Delete Project Details</span></a>
+        
+      </div>
+    </div>
+    <!--mobile navigation bar end-->
+    <!--sidebar start-->
+    <div class="sidebar">
+      <div class="profile_info">
+        <h4>Menu</h4>
+       
+      </div>
+      <a href="add.html"><i class="fas fa-plus"></i><span>Add Project Details</span></a>
+      <a href="retrieve.html"><i class="fas fa-search"></i><span>Retrieve Project Details</span></a>
+      <a href="delete3.html"><i class="fas fa-trash"></i><span>Delete Project Details</span></a>
+     
+    </div>
+    
+    <!--sidebar end-->
+    <div class="content">
+        
+     <!-- <input id="input" type="text" placeholder="Name" autofocus> </input> -->
+     <div id="display-data"></div>
+     <div>
+    
+        <h4 style="text-align: center; margin-left: 10px;">Delete your Project Details here</h4> <br>
+    
+    
+      <input type="text" id="search-input" style="text-align: left; margin-left: 40%; " placeholder="Project Name"><br><br>
+      <button onclick="searchData()" class="button">Search</button>
+      <br>
+      <br>
+      <br>
+      <br>
+  
+  
+    <div id="data-container"></div>
+  
+      
+<!-- <div id="data"></div>
+<input type="text"id="search"> -->
+          </div>
+          
+          <br>
+          <br>
+          <br>
+
+          
+          
+    <!-- <script type="text/javascript"> -->
+
+<p id="demo" style="align-content: center;text-align: center;font-weight: bolder;"></p>
+<script>
+    // Function to retrieve data from the API
+   function getData() {
+      fetch('http://localhost:3001/fetchproject') // Replace with your API endpoint URL
+        .then(function(response) {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Failed to retrieve data from the API.');
+          }
+        })
+        .then(function(data) {
+          // Store the data in a variable for searching
+          window.allData = data;
+
+          // Display all the data initially
+          displayData(data);
+        })
+        .catch(function(error) {
+          // Handle error case
+          alert(error.message);
+        });
+    }
+
+    // Function to display data
+    function displayData(data) {
+      if(data[0] == null){
+        const a=document.getElementById("demo");
+        a.innerHTML="No Data Found!";
+      }
+        console.log(data);
+      var dataContainer = document.getElementById('data-container');
+      dataContainer.innerHTML = '';
+
+      data.forEach(function(item) {
+        console.log(item)
+        
+        var dataItem = document.createElement('table');
+        var itemName6= document.createElement('br');
+        dataItem.appendChild(itemName6);
+        var itemName7= document.createElement('br');
+        dataItem.appendChild(itemName7);
+        // var dataItem1 = document.createElement('br');
+        var itemName = document.createElement('th');
+        itemName.textContent =  "Project Name:" +"  "+ item.project_name; //+ "Project ID:" + item.project_id + "Total Team Members:" + item.total_team_members + "Start Date:" + item.start_date + "End Date:" + item.end_date; 
+        var itemName1 = document.createElement('th');
+        itemName1.textContent =  "Project ID:" +"  "+ item.project_id ;
+        var itemName8 = document.createElement('th');
+        itemName8.textContent =  "Total Team Members:" +"  "+ item.total_team_members ;
+        var itemName9 = document.createElement('th');
+        itemName9.textContent =  "Start Date:" +"  "+ item.start_date;
+        var itemName10 = document.createElement('th');
+        itemName10.textContent =  "End Date:" +"  "+ item.end_date ;
+
+        
+        
+      
+        dataItem.appendChild(itemName);
+        var itemNamebr1= document.createElement('br');
+        dataItem.appendChild(itemNamebr1);
+
+        dataItem.appendChild(itemName1);
+        var itemNamebr2= document.createElement('br');
+        dataItem.appendChild(itemNamebr2);
+        dataItem.appendChild(itemName8);
+        var itemNamebr3= document.createElement('br');
+        dataItem.appendChild(itemNamebr3);
+        dataItem.appendChild(itemName9);
+        var itemNamebr4= document.createElement('br');
+        dataItem.appendChild(itemNamebr4);
+        dataItem.appendChild(itemName10);
+        var itemNamebr5= document.createElement('br');
+        dataItem.appendChild(itemNamebr5);
+        
+         var deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+      // deleteButton.style = "padding:16px;background-color:lightgray;font-weight: bold; margin: 4px 2px;";
+      deleteButton.style = "background-color:white; border: none; color: black; padding: 12px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 14px; font-weight: bold; margin: 4px 2px; transition-duration: 0.4s; cursor: pointer; border-radius: 100px"
+  
+       
+       
+
+
+    // Add a checkbo
+
+
+     
+
+  
+        deleteButton.onclick = function() 
+        {
+          deleteItem(item.project_name); // Replace with the appropriate property from your API response that represents the item's ID
+        };
+        dataItem.appendChild(deleteButton);
+
+
+        dataContainer.appendChild(dataItem);
+        var itemName3= document.createElement('br');
+        dataItem.appendChild(itemName3);
+        var itemName4= document.createElement('br');
+        dataItem.appendChild(itemName4);
+        var itemName5= document.createElement('hr');
+        dataItem.appendChild(itemName5);
+      });
+   
+    }
+
+    // Function to search and filter data
+    function searchData() {
+      var searchInput = document.getElementById('search-input').value;
+      console.log(searchInput)
+      var searchTerm = searchInput.toLowerCase();
+
+      var filteredData = window.allData.filter(function(item) {
+        return item.project_name.toLowerCase().includes(searchTerm); // Replace with the appropriate property from your API response
+      });
+        displayData(filteredData);
+      
+    }
+
+    // Function to delete an item
+    function deleteItem(itemId) {
+        console.log(itemId);
+        if(confirm("are you want to delete?")){
+
+        
+      fetch(`http://localhost:3001/deletebyprojectname/"${itemId}"`, {
+        method: 'DELETE',
+      })
+        .then(function(response) {
+          var txt;
+         getData(); 
+         
+        
+       
+          
+        })
+        .catch(function(error) {
+          // Handle error case
+          alert(error.message);
+        
+        });}
+        else{
+          window.location.href="delete3.html";
+        }
+    }
+
+    // Call the getData function when the page loads
+    window.onload = getData;
+    window.history.forward();
+          function noBack() {
+             window.history.forward();
+         } 
+  </script> 
+
+
+  </body>
+</html>

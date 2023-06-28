@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <link rel="stylesheet" href="assets/side.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+  </head>
+  <body>
+
+    <input type="checkbox" id="check">
+    <!--header area start-->
+    <header>
+      <label for="check">
+        <i class="fas fa-bars" id="sidebar_btn"></i>
+      </label>
+      <div class="left_area">
+        <h3>Project<span>Details</span></h3>
+      </div>
+      <div class="right_area">
+        <a href="index.html" class="logout_btn">Logout</a>
+      </div>
+    </header>
+    <!--header area end-->
+    <!--mobile navigation bar start-->
+    <div class="mobile_nav">
+      <div class="nav_bar">
+       
+        <i class="fa fa-bars nav_btn"></i>
+      </div>
+      <div class="mobile_nav_items">
+        <a href="add.html"><i class="fas fa-plus"></i><span>Add Project Details</span></a>
+        <a href="retrieve.html"><i class="fas fa-search"></i><span>Retrieve Project Details</span></a>
+        <a href="delete3.html"><i class="fas fa-trash"></i><span>Delete Project Details</span></a>
+      </div>
+    </div>
+    <!--mobile navigation bar end-->
+    <!--sidebar start-->
+    <div class="sidebar">
+      <div class="profile_info">
+        <h4>Menu</h4>
+       
+      </div>
+      <a href="add.html"><i class="fas fa-plus"></i><span>Add Project Details</span></a>
+      <a href="retrieve.html"><i class="fas fa-search"></i><span>Retrieve Project Details</span></a>
+      <a href="delete3.html"><i class="fas fa-trash"></i><span>Delete Project Details</span></a>
+     
+    </div>
+    <!--sidebar end-->
+    
+    <div class="content">
+        
+        
+        <div class="login-box">
+           
+            <h2>Add Project Details</h2>
+            <form action="http://localhost:3001/addproject" method="post">
+              <div class="user-box">
+                <input type="number" name="" required="" id="project_id">
+                <label>Project ID</label>
+              </div>
+              <div class="user-box">
+                <input type="text" name="" required="" id="project_name">
+                <label>Project Name</label>
+              </div>
+              <div class="user-box">
+                <input type="number" name="" required="" id="total_team_members">
+                <label>Total Team Members</label>
+              </div>
+              <div class="user-box">
+                <input type="date" name="" required="" id="start_date">
+                <label>Start Date</label>
+              </div>
+              <div class="user-box">
+                <input type="date" name="" required="" id="end_date">
+                <label>End Date</label>
+              </div>
+             
+
+<button type = "button" class="button" onclick="validate()">Add</button>
+<button style="margin-left: 100px;" type = "reset" class="button">Clear</button>
+<span id="error1" style="color: rgb(248, 118, 100);"></span>
+
+</form>
+          </div>
+        </a>
+       </div>
+       
+     
+
+    <script type="text/javascript">
+    $(document).ready(function(){ 
+        // toggle button 
+      $('.nav_btn').click(function(){
+        $('.mobile_nav_items').toggleClass('active');
+      });
+    });  
+    //  Back button disable
+     window.history.forward();
+         function noBack() {
+             window.history.forward();
+        }
+
+  ////valisdation login
+
+function validate(){
+    const project_id = document.getElementById("project_id").value;
+    const project_name = document.getElementById("project_name").value;
+    const total_team_members = document.getElementById("total_team_members").value;
+    const start_date = document.getElementById("start_date").value;
+    const end_date = document.getElementById("end_date").value;
+   
+
+if(project_id<1 || project_name.length<1|| total_team_members<1 || start_date=="" || end_date==""){
+  document.getElementById("error1").innerHTML="**please enter all the fields";
+ 
+
+}
+
+    
+if(project_id>1 || project_name.length>1 || total_team_members>1 || start_date!="" || end_date!=""){
+
+    
+    
+  
+fetch('http://localhost:3001/addproject', {
+  method: 'POST',
+  body: JSON.stringify({
+    project_id:project_id,
+    project_name:project_name,
+    total_team_members:total_team_members,
+    start_date:start_date,
+    end_date:end_date
+
+  }),
+  headers: {
+    'Content-type': 'application/json; charset=UTF-8',
+  }
+  })
+  .then(function(response){ 
+  return response.json()})
+
+  .then(function(data)
+  {console.log(data)
+    if(data==true)
+    {
+      window.location.href="success.html";
+    }
+ 
+     
+}).catch(error => console.error('Error:', error)); 
+
+
+}
+}
+
+
+    </script>
+
+  </body>
+</html>

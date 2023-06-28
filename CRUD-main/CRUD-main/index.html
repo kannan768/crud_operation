@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>Login</title>
+
+<link rel="stylesheet" href="assets/style.css">
+
+<style>
+
+    p {
+
+      color: red;
+
+      text-indent: 30px;
+
+     
+
+    }
+
+    </style>
+
+</head>
+
+<body>
+
+
+ 
+
+<section class="box">
+
+    <div class="design">
+
+        <div></div>
+
+        <div></div>
+
+        <div></div>
+
+        <div></div>
+
+    </div>
+
+    <div class="form">
+
+        <h1 style="margin-left: 75px;">Login Form</h1>
+
+<br>
+
+<form action="http://localhost:3001/api/validate" method="get">
+
+<form>
+
+<input type="text" id="Username" name="Username" placeholder="Username"class="input-field" required>
+
+<span id="error1" style="color: red;"></span>
+
+<br>
+
+
+ 
+
+<input type="password" id="Password" name="Password" placeholder="Password" class="input-field"required><br>
+
+<span id="error2" style="color: red;"></span>
+
+<button type="button" onclick="validate()" class="btn"> Login</button>
+
+<br>
+
+<br>
+
+
+
+ 
+
+<p id="error3" style="margin-left: 75px;"></p>
+
+</form>
+
+
+ 
+
+    </div>
+
+
+ 
+
+</section>
+
+
+
+ 
+
+<script>
+
+
+ 
+
+function validate(){
+
+    const username = document.getElementById("Username").value;
+
+    const password = document.getElementById("Password").value;
+
+   // Store the username in the session storage
+
+sessionStorage.setItem('username', username);
+
+
+ 
+
+ if (username.length < 1 ){
+
+        document.getElementById("error1").innerHTML="Username is required ! ";
+
+       if(password.length > 1 ){
+
+        document.getElementById("error2").innerHTML = "";
+
+        document.getElementById("error3").innerHTML = "";
+
+       }
+
+    }
+
+    if ( password.length < 1){
+
+        document.getElementById("error2").innerHTML="Password is required ! ";
+
+        if(username.length > 1){
+
+            document.getElementById("error1").innerHTML = "";
+
+            document.getElementById("error3").innerHTML = "";
+
+        }
+
+
+ 
+
+    }
+
+    if(username.length < 1  && password.length < 1){
+
+        document.getElementById("error1").innerHTML="Username is required ! ";
+
+        document.getElementById("error2").innerHTML="Password is required ! ";
+
+        document.getElementById("error3").innerHTML = "";
+
+
+ 
+
+    }
+
+    if(username.length > 1  && password.length > 1){
+
+
+ 
+
+   
+
+   
+
+   
+
+   
+
+fetch(`http://localhost:3001/api/validate?Username=${username}&Password=${password}`).then(
+
+    respose => respose.json()
+
+)
+
+.then(data => {
+
+    console.log(data);
+
+    if(data == true){
+
+        window.location.href = "details1.html";
+
+    }
+
+    else{
+
+        // window.location.href = "invalid.html";
+
+        document.getElementById("error1").innerHTML = "";
+
+        document.getElementById("error2").innerHTML = "";
+
+        document.getElementById("error3").innerHTML = "Invalid user";
+
+    }
+
+ 
+
+// Update the HTML content with the API response
+
+
+ 
+
+})
+
+.catch(error => {
+
+console.error('Error:', error);
+
+});
+
+}
+
+
+
+ 
+
+}
+
+ window.history.forward();
+
+        function noBack() {
+
+             window.history.forward();
+
+        }
+
+</script>
+
+
+
+ 
+
+</body>
+
+</html>
